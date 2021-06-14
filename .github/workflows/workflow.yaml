@@ -8,8 +8,10 @@ jobs:
   build-envoy:
     name: Build envoy (${{ matrix.release }})
     runs-on: macos-latest
-    matrix:
-      release: [ v1.18.3, v1.17.3, v1.16.4, v1.15.5 ]
+    strategy:
+      fail-fast: false  # don't fail fast as sometimes failures are version specific
+      matrix:
+        release: [ v1.18.3, v1.17.3, v1.16.4, v1.15.5 ]
     steps:
       - name: checkout
         uses: actions/checkout@v2
