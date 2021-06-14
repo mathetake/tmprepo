@@ -5,19 +5,21 @@ on:
       - master
 
 jobs:
-  build-examples:
-    name: Build examples
+  build-envoy:
+    name: Build envoy (${{ matrix.release }})
     runs-on: macos-latest
+    matrix:
+      release: [ v1.18.3, v1.17.3, v1.16.4, v1.15.5 ]
     steps:
       - name: checkout
         uses: actions/checkout@v2
         with:
           repository: envoyproxy/envoy
-          ref: release/v1.18
+          ref: ${{ matrix.release }}
 
       - name: Install deps
         run: brew install coreutils wget cmake libtool automake ninja clang-format autoconf aspell
-      
+
       - name: create user.bazelrc
         run: echo build --action_env=PATH="/usr/local/bin:/opt/local/bin:/usr/bin:/bin" >> user.bazelrc
 
@@ -26,5 +28,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: envoy
+          name: envoy-${{ matrix.release }}
           path: bazel-bin/source/exe/envoy-static
