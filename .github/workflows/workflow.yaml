@@ -16,7 +16,7 @@ jobs:
           ref: release/v1.18
 
       - name: Install deps
-        run: brew install coreutils wget cmake libtool go automake ninja clang-format autoconf aspell
+        run: brew install coreutils wget cmake libtool automake ninja clang-format autoconf aspell
       
       - name: create user.bazelrc
         run: echo build --action_env=PATH="/usr/local/bin:/opt/local/bin:/usr/bin:/bin" >> user.bazelrc
